@@ -21,8 +21,12 @@ class ViewController: UIViewController {
     }
 
     @IBOutlet weak var displayResultLabel: UILabel!
+    
     var stillTyping = false
     var firstOperand: Double = 0
+    var secondOperand: Double = 0
+    var operationSign: String = ""
+    
     var currentInput: Double {
         get {
             return Double(displayResultLabel.text!)!
@@ -49,7 +53,27 @@ class ViewController: UIViewController {
     }
     
     @IBAction func twoOperandSignPressed(sender: UIButton) {
+        operationSign = sender.currentTitle!
         firstOperand = currentInput
+        stillTyping = false
+    }
+    
+    @IBAction func equalitySignPressed(sender: UIButton) {
+        if stillTyping{
+            secondOperand = currentInput
+        }
+        
+        switch operationSign {
+            case "+": operateWitthTwoOperant {$0 + $1}
+            case "-": operateWitthTwoOperant {$0 - $1}
+            case "×": operateWitthTwoOperant {$0 * $1}
+            case "÷": operateWitthTwoOperant {$0 / $1}
+            default: break;
+        }
+    }
+    
+    func operateWitthTwoOperant(operation: (Double, Double) -> Double) {
+        currentInput = operation(firstOperand, secondOperand)
         stillTyping = false
     }
 }
