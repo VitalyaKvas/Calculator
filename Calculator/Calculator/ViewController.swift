@@ -10,19 +10,10 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     @IBOutlet weak var displayResultLabel: UILabel!
     
     var stillTyping = false
+    var dotIsPlaced = false
     var firstOperand: Double = 0
     var secondOperand: Double = 0
     var operationSign: String = ""
@@ -56,12 +47,15 @@ class ViewController: UIViewController {
         operationSign = sender.currentTitle!
         firstOperand = currentInput
         stillTyping = false
+        dotIsPlaced = false
     }
     
     @IBAction func equalitySignPressed(sender: UIButton) {
         if stillTyping{
             secondOperand = currentInput
         }
+        
+        dotIsPlaced = false
         
         switch operationSign {
             case "+": operateWitthTwoOperant {$0 + $1}
@@ -75,6 +69,44 @@ class ViewController: UIViewController {
     func operateWitthTwoOperant(operation: (Double, Double) -> Double) {
         currentInput = operation(firstOperand, secondOperand)
         stillTyping = false
+    }
+    
+    @IBAction func clearButtonPressed(sender: UIButton) {
+        firstOperand = 0
+        secondOperand = 0
+        currentInput = 0
+        displayResultLabel.text = "0"
+        stillTyping = false
+        dotIsPlaced = false
+        operationSign = ""
+    }
+    
+    @IBAction func plusMinusButtonPressed(sender: UIButton) {
+        currentInput = -currentInput
+    }
+    
+    @IBAction func percentageButtonpressed(sender: UIButton) {
+        if firstOperand == 0 {
+            currentInput = currentInput / 100
+        } else {
+            currentInput = firstOperand * currentInput / 100
+        }
+        
+        stillTyping = false
+    }
+    
+    @IBAction func squareRootButtonPressed(sender: UIButton) {
+        currentInput = sqrt(currentInput)
+    }
+    
+    @IBAction func dotButtonPressed(sender: UIButton) {
+        if stillTyping && !dotIsPlaced {
+            displayResultLabel.text = displayResultLabel.text! + "."
+            dotIsPlaced = true
+        } else if !stillTyping && !dotIsPlaced {
+            displayResultLabel.text = "0."
+            stillTyping = true
+        }
     }
 }
 
