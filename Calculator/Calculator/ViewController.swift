@@ -9,6 +9,14 @@
 import UIKit
 
 class ViewController: UIViewController {
+    
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return .LightContent
+    }
+    
+    override func prefersStatusBarHidden() -> Bool {
+        return true
+    }
 
     @IBOutlet weak var displayResultLabel: UILabel!
     
