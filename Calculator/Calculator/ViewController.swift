@@ -10,14 +10,14 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return .LightContent
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
     
-    override func prefersStatusBarHidden() -> Bool {
+    override var prefersStatusBarHidden: Bool {
         return true
     }
-
+    
     @IBOutlet weak var displayResultLabel: UILabel!
     
     var stillTyping = false
@@ -32,7 +32,7 @@ class ViewController: UIViewController {
         }
         set {
             let value = "\(newValue)"
-            let valueArray = value.componentsSeparatedByString(".")
+            let valueArray = value.split(separator: ".")
             
             if valueArray[1] == "0" {
                 displayResultLabel.text = "\(valueArray[0])"
@@ -48,8 +48,10 @@ class ViewController: UIViewController {
         let number = sender.currentTitle!
         
         if stillTyping {
-            if displayResultLabel.text?.characters.count < 20 {
-                displayResultLabel.text = displayResultLabel.text! + number
+            if let textLength = displayResultLabel.text?.count {
+                if textLength < 20 {
+                    displayResultLabel.text = displayResultLabel.text! + number
+                }
             }
         }
         else
